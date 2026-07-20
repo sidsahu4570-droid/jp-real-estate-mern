@@ -1,13 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
   Search, 
   MapPin, 
   Home, 
   Bed, 
-  SlidersHorizontal, 
-  RotateCcw,
-  IndianRupee 
+  RotateCcw
 } from 'lucide-react';
 
 const SearchFilter = ({ initialFilters = {}, onFilterChange }) => {
@@ -19,21 +17,71 @@ const SearchFilter = ({ initialFilters = {}, onFilterChange }) => {
   const [bedrooms, setBedrooms] = useState(initialFilters.bedrooms || '');
   const [maxPrice, setMaxPrice] = useState(initialFilters.maxPrice || '');
 
-  const handleSearchSubmit = (e) => {
-    e.preventDefault();
-    const queryParams = new URLSearchParams();
-    if (purpose) queryParams.set('purpose', purpose);
-    if (search) queryParams.set('search', search);
-    if (type && type !== 'All') queryParams.set('type', type);
-    if (city && city !== 'All') queryParams.set('city', city);
-    if (bedrooms) queryParams.set('bedrooms', bedrooms);
-    if (maxPrice) queryParams.set('maxPrice', maxPrice);
+  // Sync internal filter state when initialFilters prop changes
+  useEffect(() => {
+    setPurpose(initialFilters.purpose || 'For Sale');
+    setSearch(initialFilters.search || '');
+    setType(initialFilters.type || 'All');
+    setCity(initialFilters.city || 'All');
+    setBedrooms(initialFilters.bedrooms || '');
+    setMaxPrice(initialFilters.maxPrice || '');
+  }, [
+    initialFilters.purpose, 
+    initialFilters.search, 
+    initialFilters.type, 
+    initialFilters.city, 
+    initialFilters.bedrooms, 
+    initialFilters.maxPrice
+  ]);
+
+  const applyFilters = (overrideValues = {}) => {
+    const filters = {
+      purpose: overrideValues.purpose !== undefined ? overrideValues.purpose : purpose,
+      search: overrideValues.search !== undefined ? overrideValues.search : search,
+      type: overrideValues.type !== undefined ? overrideValues.type : type,
+      city: overrideValues.city !== undefined ? overrideValues.city : city,
+      bedrooms: overrideValues.bedrooms !== undefined ? overrideValues.bedrooms : bedrooms,
+      maxPrice: overrideValues.maxPrice !== undefined ? overrideValues.maxPrice : maxPrice
+    };
 
     if (onFilterChange) {
-      onFilterChange({ purpose, search, type, city, bedrooms, maxPrice });
+      onFilterChange(filters);
     } else {
+      const queryParams = new URLSearchParams();
+      if (filters.purpose && filters.purpose !== 'All') queryParams.set('purpose', filters.purpose);
+      if (filters.search) queryParams.set('search', filters.search);
+      if (filters.type && filters.type !== 'All') queryParams.set('type', filters.type);
+      if (filters.city && filters.city !== 'All') queryParams.set('city', filters.city);
+      if (filters.bedrooms) queryParams.set('bedrooms', filters.bedrooms);
+      if (filters.maxPrice) queryParams.set('maxPrice', filters.maxPrice);
+
       navigate(`/properties?${queryParams.toString()}`);
     }
+  };
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    applyFilters();
+  };
+
+  const handlePurposeChange = (newPurpose) => {
+    setPurpose(newPurpose);
+    applyFilters({ purpose: newPurpose });
+  };
+
+  const handleTypeChange = (newType) => {
+    setType(newType);
+    applyFilters({ type: newType });
+  };
+
+  const handleCityChange = (newCity) => {
+    setCity(newCity);
+    applyFilters({ city: newCity });
+  };
+
+  const handleBedroomsChange = (newBedrooms) => {
+    setBedrooms(newBedrooms);
+    applyFilters({ bedrooms: newBedrooms });
   };
 
   const handleReset = () => {
@@ -43,8 +91,12 @@ const SearchFilter = ({ initialFilters = {}, onFilterChange }) => {
     setCity('All');
     setBedrooms('');
     setMaxPrice('');
+    
+    const resetObj = { purpose: 'For Sale', search: '', type: 'All', city: 'All', bedrooms: '', maxPrice: '' };
     if (onFilterChange) {
-      onFilterChange({ purpose: 'For Sale', search: '', type: 'All', city: 'All', bedrooms: '', maxPrice: '' });
+      onFilterChange(resetObj);
+    } else {
+      navigate('/properties');
     }
   };
 
@@ -58,7 +110,7 @@ const SearchFilter = ({ initialFilters = {}, onFilterChange }) => {
             <button
               key={p}
               type="button"
-              onClick={() => setPurpose(p)}
+              onClick={() => handlePurposeChange(p)}
               className={`px-6 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all ${
                 purpose === p
                   ? 'gold-gradient-bg text-navy-900 shadow-md'
@@ -105,8 +157,8 @@ const SearchFilter = ({ initialFilters = {}, onFilterChange }) => {
           </label>
           <select
             value={type}
-            onChange={(e) => setType(e.target.value)}
-            className="w-full px-3.5 py-2.5 rounded-lg bg-navy-800 border border-white/15 text-white text-sm focus:outline-none focus:border-gold-400 transition-colors"
+            onChange={(e) => handleTypeChange(e.target.value)}
+            className="w-full px-3.5 py-2.5 rounded-lg bg-navy-800 border border-white/15 text-white text-sm focus:outline-none focus:border-gold-400 transition-colors cursor-pointer"
           >
             <option value="All">All Property Types</option>
             <option value="Apartment">Apartment</option>
@@ -124,8 +176,8 @@ const SearchFilter = ({ initialFilters = {}, onFilterChange }) => {
           </label>
           <select
             value={city}
-            onChange={(e) => setCity(e.target.value)}
-            className="w-full px-3.5 py-2.5 rounded-lg bg-navy-800 border border-white/15 text-white text-sm focus:outline-none focus:border-gold-400 transition-colors"
+            onChange={(e) => handleCityChange(e.target.value)}
+            className="w-full px-3.5 py-2.5 rounded-lg bg-navy-800 border border-white/15 text-white text-sm focus:outline-none focus:border-gold-400 transition-colors cursor-pointer"
           >
             <option value="All">All Cities</option>
             <option value="Mumbai">Mumbai</option>
@@ -143,8 +195,8 @@ const SearchFilter = ({ initialFilters = {}, onFilterChange }) => {
           </label>
           <select
             value={bedrooms}
-            onChange={(e) => setBedrooms(e.target.value)}
-            className="w-full px-3.5 py-2.5 rounded-lg bg-navy-800 border border-white/15 text-white text-sm focus:outline-none focus:border-gold-400 transition-colors"
+            onChange={(e) => handleBedroomsChange(e.target.value)}
+            className="w-full px-3.5 py-2.5 rounded-lg bg-navy-800 border border-white/15 text-white text-sm focus:outline-none focus:border-gold-400 transition-colors cursor-pointer"
           >
             <option value="">Any Bedrooms</option>
             <option value="2">2+ BHK</option>

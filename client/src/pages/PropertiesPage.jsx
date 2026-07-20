@@ -14,20 +14,20 @@ import {
 } from 'lucide-react';
 
 const PropertiesPage = () => {
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [properties, setProperties] = useState([]);
   const [loading, setLoading] = useState(true);
   const [viewMode, setViewMode] = useState('grid'); // 'grid' | 'list'
   const [sortBy, setSortBy] = useState('newest'); // 'newest' | 'price-low' | 'price-high'
 
-  const [activeFilters, setActiveFilters] = useState({
+  const activeFilters = {
     purpose: searchParams.get('purpose') || 'All',
     type: searchParams.get('type') || 'All',
     city: searchParams.get('city') || 'All',
     search: searchParams.get('search') || '',
     bedrooms: searchParams.get('bedrooms') || '',
     maxPrice: searchParams.get('maxPrice') || ''
-  });
+  };
 
   const fetchProperties = async (filters) => {
     setLoading(true);
@@ -53,11 +53,25 @@ const PropertiesPage = () => {
 
   useEffect(() => {
     fetchProperties(activeFilters);
-  }, []);
+  }, [
+    searchParams.get('purpose'),
+    searchParams.get('type'),
+    searchParams.get('city'),
+    searchParams.get('search'),
+    searchParams.get('bedrooms'),
+    searchParams.get('maxPrice')
+  ]);
 
   const handleFilterChange = (newFilters) => {
-    setActiveFilters(newFilters);
-    fetchProperties(newFilters);
+    const params = new URLSearchParams();
+    if (newFilters.purpose && newFilters.purpose !== 'All') params.set('purpose', newFilters.purpose);
+    if (newFilters.type && newFilters.type !== 'All') params.set('type', newFilters.type);
+    if (newFilters.city && newFilters.city !== 'All') params.set('city', newFilters.city);
+    if (newFilters.search) params.set('search', newFilters.search);
+    if (newFilters.bedrooms) params.set('bedrooms', newFilters.bedrooms);
+    if (newFilters.maxPrice) params.set('maxPrice', newFilters.maxPrice);
+
+    setSearchParams(params);
   };
 
   // Sorting logic
