@@ -52,7 +52,7 @@ const Footer = () => {
       </div>
 
       {/* Main Footer Links */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
         
         {/* Col 1: Brand Info */}
         <div className="lg:col-span-2 space-y-5">
@@ -127,29 +127,6 @@ const Footer = () => {
               <li key={idx}>
                 <Link to={link.path} className="hover:text-gold-400 transition-colors flex items-center gap-1.5">
                   <ArrowRight className="w-3 h-3 text-gold-400 opacity-60" /> {link.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Col 3: Property Typologies */}
-        <div className="space-y-4">
-          <h4 className="font-serif text-lg font-semibold text-white border-b border-gold-500/30 pb-2 inline-block">
-            Luxury Collections
-          </h4>
-          <ul className="space-y-2.5 text-sm">
-            {[
-              'Sea-Facing Penthouses',
-              'Oceanfront Private Villas',
-              'Golf Course Residences',
-              'Heritage Hill Estates',
-              'Grade-A Commercial Suites',
-              'Gated Villa Communities'
-            ].map((cat, idx) => (
-              <li key={idx}>
-                <Link to="/properties" className="hover:text-gold-400 transition-colors flex items-center gap-1.5">
-                  <ArrowRight className="w-3 h-3 text-gold-400 opacity-60" /> {cat}
                 </Link>
               </li>
             ))}
