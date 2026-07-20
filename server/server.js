@@ -69,7 +69,7 @@ const startServer = (portToTry) => {
   });
 };
 
-if (require.main === module) {
+if (require.main === module || !process.env.VERCEL) {
   startServer(Number(PORT));
 }
 
