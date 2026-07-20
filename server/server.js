@@ -69,4 +69,8 @@ const startServer = (portToTry) => {
   });
 };
 
-startServer(Number(PORT));
+if (require.main === module) {
+  startServer(Number(PORT));
+}
+
+module.exports = app;
