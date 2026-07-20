@@ -49,7 +49,7 @@ const SearchFilter = ({ initialFilters = {}, onFilterChange }) => {
   };
 
   return (
-    <div className="w-full max-w-6xl mx-auto bg-navy-900/90 border border-gold-500/30 rounded-2xl shadow-2xl backdrop-blur-xl p-4 sm:p-6 text-white transform -translate-y-12 z-30 relative">
+    <div className="w-full max-w-6xl mx-auto bg-navy-900/95 border border-gold-500/30 rounded-2xl shadow-2xl backdrop-blur-xl p-4 sm:p-6 text-white transform -translate-y-6 sm:-translate-y-12 z-30 relative">
       
       {/* Purpose Tabs (Buy / Rent) */}
       <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-5">

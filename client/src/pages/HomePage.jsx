@@ -81,8 +81,8 @@ const HomePage = () => {
       </div>
 
       {/* 3. Stats Highlight Strip */}
-      <section className="py-12 bg-white border-y border-slate-200/60 -mt-6">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-2 lg:grid-cols-4 gap-8">
+      <section className="py-8 sm:py-12 bg-white border-y border-slate-200/60 pt-4 sm:pt-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8">
           {[
             { label: 'Curated Asset Volume', value: '₹ 4,800+ Cr', icon: TrendingUp },
             { label: 'Off-Market Penthouses & Villas', value: '350+ Assets', icon: Building2 },
@@ -91,13 +91,13 @@ const HomePage = () => {
           ].map((stat, idx) => {
             const IconComp = stat.icon;
             return (
-              <div key={idx} className="flex items-center gap-4 p-4 rounded-xl hover:bg-slate-50 transition-colors">
-                <div className="w-12 h-12 rounded-xl gold-gradient-bg flex items-center justify-center shrink-0 shadow-md">
-                  <IconComp className="w-6 h-6 text-navy-900" />
+              <div key={idx} className="flex items-center gap-3 sm:gap-4 p-4 rounded-xl bg-slate-50/80 sm:bg-transparent border border-slate-100 sm:border-none hover:bg-slate-50 transition-colors">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl gold-gradient-bg flex items-center justify-center shrink-0 shadow-md">
+                  <IconComp className="w-5 h-5 sm:w-6 sm:h-6 text-navy-900" />
                 </div>
-                <div>
-                  <h4 className="font-serif text-2xl font-bold text-navy-900">{stat.value}</h4>
-                  <p className="text-xs text-slate-500 font-medium">{stat.label}</p>
+                <div className="min-w-0 flex-1">
+                  <h4 className="font-serif text-xl sm:text-2xl font-bold text-navy-900 leading-tight truncate">{stat.value}</h4>
+                  <p className="text-xs text-slate-500 font-medium truncate mt-0.5">{stat.label}</p>
                 </div>
               </div>
             );
