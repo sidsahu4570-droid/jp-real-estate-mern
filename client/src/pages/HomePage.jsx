@@ -82,22 +82,22 @@ const HomePage = () => {
 
       {/* 3. Stats Highlight Strip */}
       <section className="py-8 sm:py-12 bg-white border-y border-slate-200/60 pt-4 sm:pt-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-8">
           {[
             { label: 'Curated Asset Volume', value: '₹ 4,800+ Cr', icon: TrendingUp },
-            { label: 'Off-Market Penthouses & Villas', value: '350+ Assets', icon: Building2 },
-            { label: 'High Net Worth Clients Represented', value: '1,200+ HNWIs', icon: Users },
-            { label: 'Excellence & Legal Clearance', value: '100% RERA Compliant', icon: ShieldCheck },
+            { label: 'Off-Market Assets', value: '350+ Assets', icon: Building2 },
+            { label: 'Clients Represented', value: '1,200+ HNWIs', icon: Users },
+            { label: 'Legal Clearance', value: '100% RERA', icon: ShieldCheck },
           ].map((stat, idx) => {
             const IconComp = stat.icon;
             return (
-              <div key={idx} className="flex items-center gap-3 sm:gap-4 p-4 rounded-xl bg-slate-50/80 sm:bg-transparent border border-slate-100 sm:border-none hover:bg-slate-50 transition-colors">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl gold-gradient-bg flex items-center justify-center shrink-0 shadow-md">
-                  <IconComp className="w-5 h-5 sm:w-6 sm:h-6 text-navy-900" />
+              <div key={idx} className="flex flex-col justify-between p-3.5 sm:p-5 rounded-2xl bg-slate-50/80 sm:bg-transparent border border-slate-200/60 sm:border-none hover:bg-slate-50 transition-colors shadow-sm sm:shadow-none">
+                <div className="w-8 h-8 sm:w-12 sm:h-12 rounded-xl gold-gradient-bg flex items-center justify-center shrink-0 shadow-sm mb-2 sm:mb-3">
+                  <IconComp className="w-4 h-4 sm:w-6 sm:h-6 text-navy-900" />
                 </div>
-                <div className="min-w-0 flex-1">
-                  <h4 className="font-serif text-xl sm:text-2xl font-bold text-navy-900 leading-tight truncate">{stat.value}</h4>
-                  <p className="text-xs text-slate-500 font-medium truncate mt-0.5">{stat.label}</p>
+                <div>
+                  <h4 className="font-serif text-base sm:text-2xl font-bold text-navy-900 leading-tight">{stat.value}</h4>
+                  <p className="text-[11px] sm:text-xs text-slate-500 font-medium leading-tight mt-1">{stat.label}</p>
                 </div>
               </div>
             );
